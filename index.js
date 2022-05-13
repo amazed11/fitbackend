@@ -236,6 +236,24 @@ app.get("/getexercise", (req, res) => {
   });
 });
 
+//get profile
+app.get("/getprofile/:email", (req, res) => {
+  const email = req.params.email;
+  var sql = "select * from `users` where email=?";
+  var query = db.query(sql, [email], function (err, result) {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({
+        status: false,
+        message: "failed to get",
+      });
+    }
+    return res
+      .status(200)
+      .send({ message: "Successfully fetched.", status: true, data: result });
+  });
+});
+
 app.listen(port, () => {
   console.log(`Fitness app listening at http://localhost:${port}`);
 });
